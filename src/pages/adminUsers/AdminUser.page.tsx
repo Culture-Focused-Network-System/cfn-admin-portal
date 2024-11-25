@@ -78,7 +78,11 @@ const AdminUserPage = () => {
 						className="clickable"
 						onClick={() => navigate(-1)}
 					/>
-					<h2>Admin User</h2>
+					<h2>
+						{user
+							? `Admin Users / ${user.firstName} ${user.lastName}`
+							: "Admin User"}
+					</h2>
 				</Row>
 			</ControlBar>
 			<Container>
@@ -174,13 +178,13 @@ const AdminUserPage = () => {
 										required
 									>
 										<MenuItem key="enabled" value="Enabled">
-											Enabled
+											Active
 										</MenuItem>
 										<MenuItem
 											key="disabled"
 											value="Disabled"
 										>
-											Disabled
+											Inactive
 										</MenuItem>
 									</TextField>
 								</Column>
@@ -204,7 +208,11 @@ const AdminUserPage = () => {
 									</Column>
 									<Column $gap="0.25rem">
 										<p className="text-xs">Status</p>
-										<p>{user.status}</p>
+										<p>
+											{user.status === "Enabled"
+												? "Active"
+												: "Inactive"}
+										</p>
 									</Column>
 								</Column>
 							)}

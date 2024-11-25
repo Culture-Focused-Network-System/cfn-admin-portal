@@ -6,7 +6,7 @@ const LayoutHeader = () => {
 	return (
 		<StyledHeader>
 			<Link to="/">
-				<h3>Amalga</h3>
+				<h3>Cultiveo</h3>
 			</Link>
 			<LayoutAvatar />
 		</StyledHeader>
