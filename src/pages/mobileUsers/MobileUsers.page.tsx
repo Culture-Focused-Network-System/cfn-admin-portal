@@ -87,7 +87,6 @@ const MobileUsersPage = () => {
 
 	const handleExport = () => {
 		const users = data.map((user: User) => ({
-			_id: user._id,
 			firstName: user.firstName,
 			lastName: user.lastName,
 			username: user.username,
