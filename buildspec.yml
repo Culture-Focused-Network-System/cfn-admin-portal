@@ -10,7 +10,7 @@ phases:
       - cd $DIRECTORY
       - echo "Building Docker Image"
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - docker build --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY --build-arg AWS_REGION=AWS_REGION --build-arg SECRET_NAME=$SECRET_NAME -t $ECR_REPO .
+      - docker build --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY --build-arg AWS_REGION=$AWS_REGION --build-arg SECRET_NAME=$SECRET_NAME -t $ECR_REPO .
       - docker tag $ECR_REPO:latest $ECR_URL/$ECR_REPO:$TAG
       - echo "Pushing Docker Image to ECR"
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URL
