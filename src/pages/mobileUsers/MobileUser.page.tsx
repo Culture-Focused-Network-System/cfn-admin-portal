@@ -16,7 +16,6 @@ const MobileUserPage = () => {
 	const { userId } = useParams();
 	const navigate = useNavigate();
 	const [user, setUser] = useState<User | null>(null);
-	const [userError, setUserError] = useState("");
 	const [canEdit, setCanEdit] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -57,24 +56,6 @@ const MobileUserPage = () => {
 		if (isLoading || !userId || !user) return;
 		try {
 			setIsLoading(true);
-			setUserError("");
-
-			if (!user.firstName) {
-				setUserError("First name is required.");
-				return;
-			}
-			if (!user.lastName) {
-				setUserError("Last name is required.");
-				return;
-			}
-			if (!user.email) {
-				setUserError("Email is required.");
-				return;
-			}
-			if (!user.username) {
-				setUserError("Username is required.");
-				return;
-			}
 
 			await UsersApi.update(userId, user);
 			await handleEditClick();
@@ -140,11 +121,6 @@ const MobileUserPage = () => {
 							</Column>
 							{canEdit ? (
 								<Column $gap="1.5rem">
-									{userError && (
-										<p className="text-error">
-											{userError}
-										</p>
-									)}
 									<TextField
 										variant="outlined"
 										id="firstName"
@@ -156,6 +132,7 @@ const MobileUserPage = () => {
 												firstName: e.target.value,
 											})
 										}
+										required
 									/>
 									<TextField
 										variant="outlined"
@@ -168,6 +145,7 @@ const MobileUserPage = () => {
 												lastName: e.target.value,
 											})
 										}
+										required
 									/>
 									<TextField
 										variant="outlined"
@@ -181,6 +159,7 @@ const MobileUserPage = () => {
 											})
 										}
 										type="email"
+										required
 									/>
 									<TextField
 										variant="outlined"
@@ -193,6 +172,7 @@ const MobileUserPage = () => {
 												username: e.target.value,
 											})
 										}
+										required
 									/>
 									<TextField
 										variant="outlined"
