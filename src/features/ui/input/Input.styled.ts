@@ -28,4 +28,9 @@ export const StyledInput = styled.div`
 			border-color: ${({ theme }) => theme.colors.primary};
 		}
 	}
+
+	.error {
+		font-size: 12px;
+		color: ${({ theme }) => theme.colors.error};
+	}
 `;

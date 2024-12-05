@@ -38,12 +38,12 @@ const columns: MRT_ColumnDef<Community>[] = [
 		header: "Language",
 	},
 	{
-		accessorKey: "type",
-		header: "Type",
+		accessorKey: "createdAt",
+		header: "Created At",
 	},
 	{
-		accessorKey: "status",
-		header: "Status",
+		accessorKey: "type",
+		header: "Type",
 	},
 ];
 

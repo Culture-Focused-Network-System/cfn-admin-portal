@@ -42,7 +42,7 @@ const columns: MRT_ColumnDef<Report>[] = [
 
 const ModerationsPage = () => {
 	const navigate = useNavigate();
-	const [tab, setTab] = useState("Not Viewed");
+	const [tab, setTab] = useState("New");
 	const [data, setData] = useState<Report[]>([]);
 	const table = useMaterialReactTable({
 		columns,
@@ -90,7 +90,7 @@ const ModerationsPage = () => {
 			</ControlBar>
 			<Container>
 				<Tabs
-					tabs={["Not Viewed", "Resolved", "Unresolved"]}
+					tabs={["New", "Needs Review", "Processed"]}
 					activeTab={tab}
 					onTabSelect={(value) => setTab(value)}
 				/>

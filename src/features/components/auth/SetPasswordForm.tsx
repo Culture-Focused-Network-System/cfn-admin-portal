@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Column } from "../../styles/Column.styled";
 import { Row } from "../../styles/Row.styled";
 import Form from "../../ui/form/Form";
@@ -16,7 +16,34 @@ const SetPasswordForm = () => {
 	const [password, setPassword] = useState("");
 	const passwordStatus = useValidPassword(password);
 	const [confirmPassword, setConfirmPassword] = useState("");
+	const [confirmPasswordError, setConfirmPasswordError] = useState("");
 	const [error, setError] = useState("");
+
+	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setPassword(value);
+		setPasswordError("");
+		if (!/[a-z]/.test(value)) {
+			setPasswordError(
+				"Password must contain at least one lowercase character."
+			);
+			return;
+		}
+		if (!/[A-Z]/.test(value)) {
+			setPasswordError(
+				"Password must contain at least one uppercase character."
+			);
+			return;
+		}
+		if (!/\d/.test(value)) {
+			setPasswordError("Password must contain at least one number.");
+			return;
+		}
+		if (value.length < 6) {
+			setPasswordError("Password must contain at least 6 characters.");
+			return;
+		}
+	};
 
 	const handleSubmit = async () => {
 		setError("");
@@ -64,11 +91,11 @@ const SetPasswordForm = () => {
 						<Input
 							id="password"
 							value={password || ""}
-							onChange={(e) => setPassword(e.target.value)}
+							onChange={handlePasswordChange}
 							label="Password"
 							type="password"
 							autoFocus
-							required
+							error={passwordError}
 						/>
 						<AssistivePassword passwordStatus={passwordStatus} />
 						<Input
@@ -77,7 +104,7 @@ const SetPasswordForm = () => {
 							onChange={(e) => setConfirmPassword(e.target.value)}
 							label="Confirm Password"
 							type="password"
-							required
+							error={confirmPasswordError}
 						/>
 						{error && <p className="text-error">{error}</p>}
 						<Button disabled={isLoading}>Set Password</Button>

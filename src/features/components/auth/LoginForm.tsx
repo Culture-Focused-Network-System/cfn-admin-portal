@@ -10,18 +10,29 @@ import AuthApi from "../../api/Auth.api";
 const LoginForm = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [email, setEmail] = useState("");
+	const [emailError, setEmailError] = useState("");
 	const [password, setPassword] = useState("");
+	const [passwordError, setPasswordError] = useState("");
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
 	const handleSubmit = async () => {
+		setError("");
+		setEmailError("");
+		setPasswordError("");
+		setIsLoading(true);
 		try {
-			setError("");
-			setIsLoading(true);
+			if (!email) {
+				setEmailError("Email is required to login.");
+				return;
+			}
+			if (!password) {
+				setPasswordError("Please enter your password.");
+				return;
+			}
 			await AuthApi.login(email, password);
 			navigate("/");
 		} catch (err: any) {
-			console.log(err.message);
 			setError(
 				"Login credentials are invalid. Please check email and/or password and try again."
 			);
@@ -57,7 +68,7 @@ const LoginForm = () => {
 								label="Email"
 								type="email"
 								autoFocus
-								required
+								error={emailError}
 							/>
 							<Input
 								id="login-password"
@@ -65,7 +76,7 @@ const LoginForm = () => {
 								onChange={(e) => setPassword(e.target.value)}
 								label="Password"
 								type="password"
-								required
+								error={passwordError}
 							/>
 							<Row $justifyContent="flex-end">
 								<Link to="/auth/forgot-password">
