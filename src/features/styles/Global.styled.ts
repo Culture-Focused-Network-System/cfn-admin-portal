@@ -70,6 +70,13 @@ const GlobalStyles = createGlobalStyle`
         line-height: 20px;
     }
 
+    .text-success{
+        font-weight: 400;
+        font-size: 14px;
+        color: ${({ theme }) => theme.colors.success};
+        line-height: 20px;
+    }
+
     .text-center{
         text-align: center;
     }

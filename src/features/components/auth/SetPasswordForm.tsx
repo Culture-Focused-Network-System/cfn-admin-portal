@@ -8,12 +8,13 @@ import Button from "../../ui/button/Button";
 import { Link } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import useQueryParam from "../../hooks/useQueryParam";
+import useValidPassword, { PasswordStatus } from "../../hooks/useValidPassword";
 
 const SetPasswordForm = () => {
 	const token = useQueryParam("token");
 	const [isLoading, setIsLoading] = useState(false);
 	const [password, setPassword] = useState("");
-	const [passwordError, setPasswordError] = useState("");
+	const passwordStatus = useValidPassword(password);
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
 	const [error, setError] = useState("");
@@ -46,26 +47,25 @@ const SetPasswordForm = () => {
 
 	const handleSubmit = async () => {
 		setError("");
-		setPasswordError("");
-		setConfirmPasswordError("");
 		setIsLoading(true);
 
 		try {
-			if (!password) {
-				setPasswordError("Please enter your new password.");
-				return;
-			}
-			if (passwordError) return;
-			if (!confirmPassword) {
-				setConfirmPasswordError("Password confirmation is required.");
+			if (
+				!passwordStatus.hasLowercase ||
+				!passwordStatus.hasUppercase ||
+				!passwordStatus.hasNumber ||
+				!passwordStatus.hasLength
+			) {
+				setError(
+					"Please make sure the password meets all of the criteria."
+				);
 				return;
 			}
 			if (password !== confirmPassword) {
 				setError("Passwords do not match.");
 				return;
 			}
-
-			console.log({ token, password, confirmPassword });
+			console.log({ token, password });
 		} catch (err: any) {
 			console.log(err.message);
 		} finally {
@@ -97,6 +97,7 @@ const SetPasswordForm = () => {
 							autoFocus
 							error={passwordError}
 						/>
+						<AssistivePassword passwordStatus={passwordStatus} />
 						<Input
 							id="confirm-password"
 							value={confirmPassword || ""}
@@ -117,6 +118,45 @@ const SetPasswordForm = () => {
 				</Form>
 			</Column>
 		</div>
+	);
+};
+
+const AssistivePassword = ({
+	passwordStatus,
+}: {
+	passwordStatus: PasswordStatus;
+}) => {
+	return (
+		<Column $gap="0">
+			<p
+				className={
+					passwordStatus.hasLowercase ? "text-success" : "text-error"
+				}
+			>
+				At least 1 lowercase letter
+			</p>
+			<p
+				className={
+					passwordStatus.hasUppercase ? "text-success" : "text-error"
+				}
+			>
+				At least 1 UPPERCASE letter
+			</p>
+			<p
+				className={
+					passwordStatus.hasNumber ? "text-success" : "text-error"
+				}
+			>
+				At least 1 number
+			</p>
+			<p
+				className={
+					passwordStatus.hasLength ? "text-success" : "text-error"
+				}
+			>
+				At least 6 characters
+			</p>
+		</Column>
 	);
 };
 
