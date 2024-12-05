@@ -16,7 +16,7 @@ const SetPasswordForm = () => {
 	const [password, setPassword] = useState("");
 	const passwordStatus = useValidPassword(password);
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [confirmPasswordError, setConfirmPasswordError] = useState("");
+	const [passwordError, setPasswordError] = useState("");
 	const [error, setError] = useState("");
 
 	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +104,7 @@ const SetPasswordForm = () => {
 							onChange={(e) => setConfirmPassword(e.target.value)}
 							label="Confirm Password"
 							type="password"
-							error={confirmPasswordError}
+							error={passwordError}
 						/>
 						{error && <p className="text-error">{error}</p>}
 						<Button disabled={isLoading}>Set Password</Button>
